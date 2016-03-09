@@ -30,7 +30,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.eclipse.jetty.server.Request;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.handler.AbstractHandler;
-import org.mcstats.Metrics;
 
 public final class Vote4Diamondz extends JavaPlugin {
 
@@ -138,7 +137,7 @@ public final class Vote4Diamondz extends JavaPlugin {
             getServer().getScheduler().scheduleAsyncRepeatingTask(this, new Runnable() {
                 @Override
                 public void run() {
-                    for (Player player : getServer().getOnlinePlayers()) {
+                    for (Player player : Bukkit.getOnlinePlayers()) {
                         VoteEntry entry = getEntry(player.getName());
                         if (canVote(entry)) {
                             player.sendMessage(MessageFormat.format(nagMessage, player.getName()));
@@ -146,8 +145,6 @@ public final class Vote4Diamondz extends JavaPlugin {
                     }
                 }
             }, nagInterval, nagInterval);
-            // start metrics
-            new Metrics(this).start();
         } catch (Exception ex) {
             getLogger().severe("Could initialise Vote4Diamondz:\t");
             ex.printStackTrace();
